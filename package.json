@@ -1,0 +1,27 @@
+{
+  "name": "shopapi",
+  "version": "1.0.0",
+  "description": "my first try for personal api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrRinsvind/MyApi.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "Mongo"
+  ],
+  "author": "Illia Lutsenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrRinsvind/MyApi/issues"
+  },
+  "homepage": "https://github.com/MrRinsvind/MyApi#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
