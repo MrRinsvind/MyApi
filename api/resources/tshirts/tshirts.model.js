@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const tshirtsSchema = new mongoose.Schema({
   title: {
@@ -19,4 +19,5 @@ const tshirtsSchema = new mongoose.Schema({
   }
 })
 
-exports Tshirts = mongoose.model('tshirts', tshirtsSchema)
+const Tshirts = mongoose.model('tshirts', tshirtsSchema)
+exports.Tshirts = Tshirts

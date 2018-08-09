@@ -1,9 +1,14 @@
 const express = require('express')
+const tshirtsController = require('./tshirts.controller')
 
 const tshirtsRouter = express.Router()
 
-tshirtsRouter.get('/', (req, res) => {
-    res.send('call to api tshirts')
-  })
+
+tshirtsRouter.param('id', tshirtsController.findByParam)
+
+tshirtsRouter.route('/')
+  .get(tshirtsController.getAll)
+  .post(tshirtsController.createOne)
+
 
 module.exports = tshirtsRouter
