@@ -1,5 +1,5 @@
 const { generateControllers } = require('./../../modules/query')
-const { Tshirts } = require('./tshirts.model')
+const { Tshirts, validate } = require('./tshirts.model')
 
 
-module.exports = generateControllers(Tshirts)
+module.exports = generateControllers(Tshirts, validate)

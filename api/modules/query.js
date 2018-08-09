@@ -1,12 +1,11 @@
 const { merge } = require('lodash')
-const Tshirts = require('../resources/tshirts/tshirts.model')
+
 const controllers = {
   createOne(model, body) {
     return model.create(body)
   },
 
-  updateOne(docToUpdate, update) {
-    merge(docToUpdate, update)
+  updateOne(docToUpdate) {
     return docToUpdate.save()
   },
 
@@ -27,17 +26,21 @@ const controllers = {
   }
 }
 
-const createOne = (model) => (req, res, next) => {
+const createOne = (model, validation) => (req, res, next) => {
+  const { error } = validation(req.body)
+  if (error) return res.status(400).send(error)
   return controllers.createOne(model, req.body)
     .then(doc => res.status(201).json(doc))
     .catch(error => next(error))
 }
 
-const updateOne = (model) => async (req, res, next) => {
+const updateOne = (model, validation) => async (req, res, next) => {
   const docToUpdate = req.docFromId
   const update = req.body
-
-  return controllers.updateOne(docToUpdate, update)
+  const doc = merge(docToUpdate, update)
+  const { error } = validation(doc)
+  if (error) return res.status(400).send(error)
+  return controllers.updateOne(doc)
     .then(doc => res.status(201).json(doc))
     .catch(error => next(error))
 }
@@ -49,7 +52,7 @@ const deleteOne = (model) => (req, res, next) => {
 }
 
 const getOne = (model) => (req, res, next) => {
-  return controllers.getOne(req.docToUpdate)
+  return controllers.getOne(req.docFromId)
     .then(doc => res.status(200).json(doc))
     .catch(error => next(error))
 }
@@ -67,7 +70,7 @@ const findByParam = (model) => (req, res, next, id) => {
       if (!doc) {
         next(new Error('Not Found Error'))
       } else {
-        req.docFromId
+        req.docFromId = doc
         next()
       }
     })
@@ -77,17 +80,17 @@ const findByParam = (model) => (req, res, next, id) => {
 }
 
 
-const generateControllers = (model, overrides = {}) => {
+const generateControllers = (model, validation = () => {}) => {
   const defaults = {
     findByParam: findByParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
     deleteOne: deleteOne(model),
-    updateOne: updateOne(model),
-    createOne: createOne(model)
+    updateOne: updateOne(model, validation),
+    createOne: createOne(model, validation)
   }
   
-  return {...defaults, ...overrides}
+  return { ...defaults }
 }
 
 exports.controllers = controllers

@@ -10,5 +10,9 @@ tshirtsRouter.route('/')
   .get(tshirtsController.getAll)
   .post(tshirtsController.createOne)
 
+tshirtsRouter.route('/:id')
+  .get(tshirtsController.getOne)
+  .patch(tshirtsController.updateOne)
+  .delete(tshirtsController.deleteOne)
 
 module.exports = tshirtsRouter

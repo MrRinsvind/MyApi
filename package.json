@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/MrRinsvind/MyApi#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "joi": "^13.5.2",
     "lodash": "^4.17.10",
     "mongoose": "^5.2.7"
   }

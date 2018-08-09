@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Joi = require('joi')
 
 const tshirtsSchema = new mongoose.Schema({
   title: {
@@ -20,4 +21,19 @@ const tshirtsSchema = new mongoose.Schema({
 })
 
 const Tshirts = mongoose.model('tshirts', tshirtsSchema)
+
+function validateTshirts(tshirts) {
+  const schema = Joi.object().keys({
+    title: Joi.string().min(3).max(50).required(),
+    price: Joi.number().min(0).required(),
+    description: Joi.string().min(10).max(1000).required(),
+  });
+  return Joi.validate(tshirts, schema, {
+    abortEarly: false,
+    allowUnknown: true,
+  });
+}
+
+
 exports.Tshirts = Tshirts
+exports.validate = validateTshirts
